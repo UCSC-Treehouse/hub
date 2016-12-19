@@ -1,0 +1,51 @@
+version: '2'
+services:
+  proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./certs:/etc/nginx/certs
+
+  www:
+    image: nginx:latest
+    environment:
+      VIRTUAL_HOST: www.scellucsc.net
+    volumes:
+      - ./www:/usr/share/nginx/html
+
+  xena:
+    build: ./xena
+    image: xena
+    environment:
+      VIRTUAL_HOST: xena.scellucsc.net
+      VIRTUAL_PORT: 7222
+    volumes:
+      - /mnt/xena:/root/xena
+
+  jupyterhub:
+    image: scell/jupyterhub
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./jupyterhub/config/jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py
+    environment:
+      GITHUB_OAUTH_ID:
+      GITHUB_OAUTH_SECRET:
+      GITHUB_OAUTH_CALLBACK:
+      DOCKER_NOTEBOOK_IMAGE:
+      DOCKER_NETWORK_NAME:
+      VIRTUAL_HOST: jupyter.scellucsc.net
+      VIRTUAL_PORT: 8000
+
+  nbviewer:
+    image: jupyter/nbviewer
+    environment:
+      DOCKER_NETWORK_NAME:
+      VIRTUAL_HOST: nbviewer.scellucsc.net
+      VIRTUAL_PORT: 8080
+    volumes:
+      - /data/public:/notebooks
+    command: python3 -m nbviewer --port=8080 --localfiles="/notebooks"
+
