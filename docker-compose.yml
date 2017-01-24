@@ -47,5 +47,5 @@ services:
       VIRTUAL_PORT: 8080
     volumes:
       - /data/public:/notebooks
-    command: python3 -m nbviewer --port=8080 --localfiles="/notebooks"
+    command: python3 -m nbviewer --port=8080 --no-cache --localfiles="/notebooks"
 
