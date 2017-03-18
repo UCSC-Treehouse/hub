@@ -1,2 +1,2 @@
-# s2s-tools
-Tooling to spin up and manage jupyter, nbviewer, xena and tensorboard
+# Treehouse Tertiary Analysis Hub
+Tooling to spin up and manage jupyterhub, nbviewer, and xena for tertiary analysis
