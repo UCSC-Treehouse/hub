@@ -1,2 +1,2 @@
-env
-certs
+.env
+certs/

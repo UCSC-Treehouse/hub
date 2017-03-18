@@ -1,0 +1,2 @@
+FROM jupyterhub/jupyterhub:0.7.2
+RUN /opt/conda/bin/pip install dockerspawner oauthenticator

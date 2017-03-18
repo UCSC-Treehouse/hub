@@ -1,7 +1,8 @@
-version: '2'
+version: '3'
+
 services:
-  proxy:
-    image: jwilder/nginx-proxy
+  nginx-proxy:
+    image: jwilder/nginx-proxy:0.4.0
     ports:
       - "80:80"
       - "443:443"
@@ -9,43 +10,47 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ./certs:/etc/nginx/certs
 
-  www:
-    image: nginx:latest
+  hub:
+    image: nginx:stable-alpine
     environment:
-      VIRTUAL_HOST: www.scellucsc.net
+      - VIRTUAL_HOST=hub.treehouse.gi.ucsc.edu
     volumes:
-      - ./www:/usr/share/nginx/html
-
-  xena:
-    build: ./xena
-    image: xena
-    environment:
-      VIRTUAL_HOST: xena.scellucsc.net
-      VIRTUAL_PORT: 7222
-    volumes:
-      - /mnt/xena:/root/xena
-
-  jupyterhub:
-    image: scell/jupyterhub
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./jupyterhub/config/jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py
-    environment:
-      GITHUB_OAUTH_ID:
-      GITHUB_OAUTH_SECRET:
-      GITHUB_OAUTH_CALLBACK:
-      DOCKER_NOTEBOOK_IMAGE:
-      DOCKER_NETWORK_NAME:
-      VIRTUAL_HOST: jupyter.scellucsc.net
-      VIRTUAL_PORT: 8000
+      - ./html:/usr/share/nginx/html
 
   nbviewer:
-    image: jupyter/nbviewer
+    image: nbviewer
+    build:
+      context: .
+      dockerfile: Dockerfile.nbviewer
     environment:
-      DOCKER_NETWORK_NAME:
-      VIRTUAL_HOST: nbviewer.scellucsc.net
-      VIRTUAL_PORT: 8080
+      - VIRTUAL_HOST=nbviewer.treehouse.gi.ucsc.edu
     volumes:
-      - /data/public:/notebooks
-    command: python3 -m nbviewer --port=8080 --no-cache --localfiles="/notebooks"
+      - /data/notebooks:/notebooks
+    command: python3 -m nbviewer --port=8080 --no-cache --localfiles=/notebooks
 
+  jupyterhub:
+    image: jupyterhub
+    build:
+      context: .
+      dockerfile: Dockerfile.jupyterhub
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py
+      - /data:/data
+    environment:
+      - VIRTUAL_HOST=jupyter.treehouse.gi.ucsc.edu
+      - COMPOSE_PROJECT_NAME
+      - CONFIGPROXY_AUTH_TOKEN=5879f3780c920dc76456360e23ef2421929b010af2440970f0f3e3ee6cca
+      - GITHUB_CLIENT_ID
+      - GITHUB_CLIENT_SECRET
+      - OAUTH_CALLBACK_URL
+
+  xena:
+    image: xena
+    build:
+      context: .
+      dockerfile: Dockerfile.xena
+    environment:
+      VIRTUAL_HOST: xena.treehouse.gi.ucsc.edu
+    volumes:
+      - /data/xena:/root/xena

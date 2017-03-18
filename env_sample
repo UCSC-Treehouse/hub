@@ -1,0 +1,7 @@
+# Prefix for all containers as well as network
+COMPOSE_PROJECT_NAME=hub
+
+# Github OAuth Credentials
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+OAUTH_CALLBACK_URL=

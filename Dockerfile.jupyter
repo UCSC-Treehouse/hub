@@ -1,0 +1,11 @@
+FROM jupyter/datascience-notebook
+
+# Install Python 2 & 3 Tensorflow
+RUN conda install --quiet --yes -n python2 'tensorflow=1.0*'
+RUN conda install --quiet --yes 'tensorflow=1.0*'
+
+RUN conda install --quiet --yes -n python2 keras
+RUN conda install --quiet --yes keras
+
+# Run as root so we can access everything under /data
+USER root
