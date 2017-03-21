@@ -1,25 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Treehouse Tertiary Analysis Hub</title>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+  <title>Treehouse Analysis Hub</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style type="text/css">
+  .row{
+    margin-top: 30px;
+    margin-bottom: 30px
+  }
+  </style>
 </head>
 <body>
-<div class="page-header">
-  <h2>
-  Treehouse Tertiary Analysis Hub
-  <div class="col-xs-6 col-md-3">
-      <img src="logo.jpg">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4"></div>
+      <div class="col-sm-2">
+        <img src="logo.jpg"></img>
+      </div>
+      <div class="col-sm-2">
+        <h2>Treehouse<br/>Analysis<br/>Hub</h2>
+      </div>
+      <div class="col-sm-4"></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 text-center">
+         <a class="btn btn-default btn" role="button"
+         	href="https://jupyter.treehouse.gi.ucsc.edu">JupyterHub</a>
+         <a class="btn btn-default btn" role="button"
+         	href="https://nbviewer.treehouse.gi.ucsc.edu/localfile/">Notebooks</a>
+         <a class="btn btn-default btn" role="button"
+         	href="https://xenabrowser.net/datapages/?hub=https://xena.treehouse.gi.ucsc.edu:443">Xena</a>
+         <a class="btn btn-default btn disabled" role="button" href="#">Redcap</a>
+         <a class="btn btn-default btn" role="button" targe="_blank"
+            href="https://docs.google.com/a/ucsc.edu/document/d/1bmpsD2yTDFdw374ORnCBmLT3RSIAFcLtCm57acUhlOE/edit?usp=sharing">Help</a>
+      </div>
+    </div>
   </div>
-  </h2>
-</div>
-
-<a class="btn btn-primary btn-lg" role="button"
-	href="https://jupyter.treehouse.gi.ucsc.edu">JupyterHub</a>
-<a class="btn btn-primary btn-lg" role="button"
-	href="https://nbviewer.treehouse.gi.ucsc.edu/localfile/">Notebooks</a>
-<a class="btn btn-primary btn-lg" role="button"
-	href="https://xenabrowser.net/datapages/?host=https://xena.treehouse.gi.ucsc.edu:443">Xena</a>
 </body>
 </html>

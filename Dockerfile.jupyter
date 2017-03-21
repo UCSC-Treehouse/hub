@@ -7,5 +7,9 @@ RUN conda install --quiet --yes 'tensorflow=1.0*'
 RUN conda install --quiet --yes -n python2 keras
 RUN conda install --quiet --yes keras
 
+# Install other packages
+RUN conda install --quiet --yes -n python2 pytables
+RUN conda install --quiet --yes pytables
+
 # Run as root so we can access everything under /data
 USER root
