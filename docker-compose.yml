@@ -37,6 +37,9 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py
       - /data:/data
+    links:
+      - nbviewer:nbviewer
+      - hub:hub
     environment:
       - VIRTUAL_HOST=jupyter.treehouse.gi.ucsc.edu
       - COMPOSE_PROJECT_NAME

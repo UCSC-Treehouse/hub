@@ -14,6 +14,7 @@ c.DockerSpawner.container_image = 'jupyter'
 
 c.DockerSpawner.notebook_dir = '/home/jovyan/work'
 c.DockerSpawner.volumes={'/data/notebooks/{username}': '/home/jovyan/work', '/data': '/data'}
+c.DockerSpawner.read_only_volumes = {'/data/notebooks/': '/home/jovyan/work/readonly'}
 c.DockerSpawner.extra_create_kwargs.update({'volume_driver': 'local'})
 
 # Connect containers to this Docker network
