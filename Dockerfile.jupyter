@@ -1,15 +1,13 @@
 FROM jupyter/datascience-notebook
 
-# Install Python 2 & 3 Tensorflow
-RUN conda install --quiet --yes -n python2 'tensorflow=1.0*'
-RUN conda install --quiet --yes 'tensorflow=1.0*'
+# Install Python 2 & 3 Additional Packages for Notebooks
+ADD requirements.txt requirements.txt
+RUN conda install --quiet --yes -n python2 --file requirements.txt
+RUN conda install --quiet --yes --file requirements.txt
 
-RUN conda install --quiet --yes -n python2 keras
-RUN conda install --quiet --yes keras
-
-# Install other packages
-RUN conda install --quiet --yes -n python2 pytables
-RUN conda install --quiet --yes pytables
+# docker package is not in conda...
+RUN pip install -q docker
+RUN pip3 install -q docker
 
 # Run as root so we can access everything under /data
 USER root
