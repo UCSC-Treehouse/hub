@@ -1,13 +1,12 @@
 FROM jupyter/datascience-notebook
 
+RUN pip2 install --upgrade pip
+RUN pip3 install --upgrade pip
+
 # Install Python 2 & 3 Additional Packages for Notebooks
 ADD requirements.txt requirements.txt
-RUN conda install --quiet --yes -n python2 --file requirements.txt
-RUN conda install --quiet --yes --file requirements.txt
-
-# docker package is not in conda...
-RUN pip install -q docker
-RUN pip3 install -q docker
+RUN pip2 install -r requirements.txt 
+RUN pip3 install -r requirements.txt 
 
 # Run as root so we can access everything under /data
 USER root

@@ -1,9 +1,9 @@
 build:
 	docker-compose build
 	docker build -f Dockerfile.jupyter -t jupyter .
+	mkdir -p /data/jupyterhub /data/xena /data/notebooks /data/scratch
 
 up:
-	mkdir -p /data/jupyterhub /data/xena /data/notebooks /data/scratch
 	docker-compose up
 
 down:
