@@ -1,9 +1,9 @@
-FROM jupyter/datascience-notebook
+FROM jupyter/datascience-notebook:latest
 
 USER root
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends zip \
+    && apt-get install -y --no-install-recommends zip cmake \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 

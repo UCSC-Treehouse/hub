@@ -1,2 +1,2 @@
-FROM jupyterhub/jupyterhub:0.7.2
+FROM jupyterhub/jupyterhub:latest
 RUN /opt/conda/bin/pip install dockerspawner oauthenticator
