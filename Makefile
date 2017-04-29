@@ -4,7 +4,8 @@ build:
 	mkdir -p /data/jupyterhub /data/xena /data/notebooks /data/scratch
 
 up:
-	docker-compose up
+	docker-compose up -d
+	docker-compose logs -f
 
 down:
 	docker-compose down
