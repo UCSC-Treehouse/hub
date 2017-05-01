@@ -1,21 +1,35 @@
 version: '3'
 
 services:
-  nginx-proxy:
-    image: jwilder/nginx-proxy:0.4.0
+  auth:
+    image: machinedata/oauth2_proxy:latest
     ports:
-      - "80:80"
-      - "443:443"
+      - "80:4180"
     volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./certs:/etc/nginx/certs
+      - ./oauth2_proxy.cfg:/conf/oauth2_proxy.cfg
+      - ./html:/html
+    environment:
+      - OAUTH2_PROXY_CLIENT_ID
+      - OAUTH2_PROXY_CLIENT_SECRET
+      - OAUTH2_PROXY_COOKIE_SECRET
+    healthcheck:
+      disable: true
+
+  # nginx-proxy:
+  #   image: jwilder/nginx-proxy:0.4.0
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - /var/run/docker.sock:/tmp/docker.sock:ro
+  #     - ./certs:/etc/nginx/certs
 
   hub:
     image: nginx:stable-alpine
     environment:
       - VIRTUAL_HOST=hub.treehouse.gi.ucsc.edu
     volumes:
-      - ./html:/usr/share/nginx/html
+      - ./html:/usr/share/nginx/html/hub
 
   # nbviewer:
   #   image: nbviewer
@@ -28,25 +42,22 @@ services:
   #     - /data/notebooks:/notebooks
   #   command: python3 -m nbviewer --port=8080 --no-cache --localfiles=/notebooks
 
-  # jupyterhub:
-  #   image: jupyterhub
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile.jupyterhub
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #     - ./jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py
-  #     - /data:/data
-  #   links:
-  #     - nbviewer:nbviewer
-  #     - hub:hub
-  #   environment:
-  #     - VIRTUAL_HOST=jupyter.treehouse.gi.ucsc.edu
-  #     - COMPOSE_PROJECT_NAME
-  #     - CONFIGPROXY_AUTH_TOKEN=5879f3780c920dc76456360e23ef2421929b010af2440970f0f3e3ee6cca
-  #     - GITHUB_CLIENT_ID
-  #     - GITHUB_CLIENT_SECRET
-  #     - OAUTH_CALLBACK_URL
+  jupyterhub:
+    image: jupyterhub
+    build:
+      context: .
+      dockerfile: Dockerfile.jupyterhub
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py
+      - /data:/data
+    environment:
+      - VIRTUAL_HOST=jupyter.treehouse.gi.ucsc.edu
+      - COMPOSE_PROJECT_NAME
+      - CONFIGPROXY_AUTH_TOKEN=5879f3780c920dc76456360e23ef2421929b010af2440970f0f3e3ee6cca
+      - GITHUB_CLIENT_ID
+      - GITHUB_CLIENT_SECRET
+      - OAUTH_CALLBACK_URL
 
   # xena:
   #   image: xena

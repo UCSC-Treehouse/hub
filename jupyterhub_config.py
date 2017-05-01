@@ -39,11 +39,15 @@ c.DockerSpawner.extra_create_kwargs.update({
 c.JupyterHub.db_url = 'sqlite:////data/jupyterhub/jupyterhub.sqlite'
 c.JupyterHub.cookie_secret_file = '/data/jupyterhub/jupyterhub_cookie_secret'
 
+c.JupyterHub.authenticator_class = 'remote_user.remote_user_auth.RemoteUserAuthenticator'
+c.RemoteUserAuthenticator.header_name = 'X-Forwarded-User'
+c.JupyterHub.base_url = '/jupyterhub/'
+
 # Authenticate users with GitHub OAuth
-c.JupyterHub.authenticator_class = 'oauthenticator.GitHubOAuthenticator'
-c.GitHubOAuthenticator.client_id = os.environ['GITHUB_CLIENT_ID']
-c.GitHubOAuthenticator.client_secret = os.environ['GITHUB_CLIENT_SECRET']
-c.GitHubOAuthenticator.oauth_callback_url = os.environ['OAUTH_CALLBACK_URL']
+# c.JupyterHub.authenticator_class = 'oauthenticator.GitHubOAuthenticator'
+# c.GitHubOAuthenticator.client_id = os.environ['GITHUB_CLIENT_ID']
+# c.GitHubOAuthenticator.client_secret = os.environ['GITHUB_CLIENT_SECRET']
+# c.GitHubOAuthenticator.oauth_callback_url = os.environ['OAUTH_CALLBACK_URL']
 
 # Whitlelist users and admins
 c.Authenticator.whitelist = whitelist = set()
