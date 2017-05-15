@@ -22,7 +22,7 @@ c.DockerSpawner.extra_create_kwargs.update({'volume_driver': 'local'})
 # Connect containers to this Docker network
 network_name = os.environ['COMPOSE_PROJECT_NAME'] + '_default'
 c.DockerSpawner.network_name = network_name
-c.DockerSpawner.extra_host_config = {'network_mode': network_name}
+c.DockerSpawner.extra_host_config.update({'network_mode': network_name})
 
 # User containers will access hub by container name on the Docker network
 c.DockerSpawner.container_ip = "0.0.0.0"
