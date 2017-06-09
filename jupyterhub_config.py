@@ -1,11 +1,11 @@
 import os
 
 c = get_config()
-c.JupyterHub.debug_proxy = True
+# c.JupyterHub.debug_proxy = True
 
 # Spawn a docker container per user
 c.JupyterHub.spawner_class = 'dockerspawner.DockerSpawner'
-c.DockerSpawner.use_internal_ip = True
+# c.DockerSpawner.use_internal_ip = True
 c.DockerSpawner.debug = True
 c.DockerSpawner.remove_containers = True
 
@@ -14,7 +14,7 @@ c.DockerSpawner.container_image = 'jupyter'
 
 c.DockerSpawner.notebook_dir = '/home/jovyan/work'
 c.DockerSpawner.volumes={'/data/notebooks/{username}': '/home/jovyan/work',
-	                 '/data': '/data',
+                         '/data': '/data',
                          '/var/run/docker.sock': '/var/run/docker.sock'}
 # c.DockerSpawner.read_only_volumes = {'/data/notebooks/': '/home/jovyan/work/readonly'}
 c.DockerSpawner.extra_create_kwargs.update({'volume_driver': 'local'})
@@ -22,7 +22,7 @@ c.DockerSpawner.extra_create_kwargs.update({'volume_driver': 'local'})
 # Connect containers to this Docker network
 network_name = os.environ['COMPOSE_PROJECT_NAME'] + '_default'
 c.DockerSpawner.network_name = network_name
-c.DockerSpawner.extra_host_config = {'network_mode': network_name}
+# c.DockerSpawner.extra_host_config = {'network_mode': network_name}
 
 # User containers will access hub by container name on the Docker network
 c.DockerSpawner.container_ip = "0.0.0.0"
