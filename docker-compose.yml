@@ -1,24 +1,37 @@
 version: '3'
 
 services:
-  auth:
-    image: machinedata/oauth2_proxy:latest
+  nginx:
+    image: nginx:stable-alpine
+    links:
+      - oauth2_proxy
+      - hub
+      - jupyterhub
     ports:
-      - "80:4180"
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+
+  oauth2_proxy:
+    image: oauth2_proxy
+    build:
+      context: .
+      dockerfile: Dockerfile.oauth2_proxy
     volumes:
       - ./oauth2_proxy.cfg:/conf/oauth2_proxy.cfg
-      - ./html:/html
     environment:
       - OAUTH2_PROXY_CLIENT_ID
       - OAUTH2_PROXY_CLIENT_SECRET
       - OAUTH2_PROXY_COOKIE_SECRET
+      - OAUTH2_PROXY_COOKIE_DOMAIN
     healthcheck:
       disable: true
 
   hub:
     image: nginx:stable-alpine
     volumes:
-      - ./html:/usr/share/nginx/html/hub
+      - ./html:/usr/share/nginx/html:ro
 
   jupyterhub:
     image: jupyterhub
@@ -29,8 +42,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py
       - /data:/data
-    ports:
-      - "8000:8000"
     environment:
       - COMPOSE_PROJECT_NAME
       - CONFIGPROXY_AUTH_TOKEN=5879f3780c920dc76456360e23ef2421929b010af2440970f0f3e3ee6cca

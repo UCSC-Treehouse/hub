@@ -42,9 +42,7 @@ c.JupyterHub.cookie_secret_file = '/data/jupyterhub/jupyterhub_cookie_secret'
 c.JupyterHub.authenticator_class = 'remote_user.remote_user_auth.RemoteUserAuthenticator'
 c.RemoteUserAuthenticator.header_name = 'X-Forwarded-User'
 c.JupyterHub.base_url = '/jupyterhub/'
-
-# c.JupyterHub.hub_prefix = '/jupyterhub/'
-
+c.JupyterHub.hub_prefix = '/jupyterhub/'
 
 # Authenticate users with GitHub OAuth
 # c.JupyterHub.authenticator_class = 'oauthenticator.GitHubOAuthenticator'
