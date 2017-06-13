@@ -22,7 +22,7 @@ c.DockerSpawner.extra_create_kwargs.update({'volume_driver': 'local'})
 # Connect containers to this Docker network
 network_name = os.environ['COMPOSE_PROJECT_NAME'] + '_default'
 c.DockerSpawner.network_name = network_name
-c.DockerSpawner.extra_host_config.update({'network_mode': network_name})
+# c.DockerSpawner.extra_host_config.update({'network_mode': network_name})
 
 # User containers will access hub by container name on the Docker network
 c.DockerSpawner.container_ip = "0.0.0.0"
@@ -42,6 +42,9 @@ c.JupyterHub.cookie_secret_file = '/data/jupyterhub/jupyterhub_cookie_secret'
 c.JupyterHub.authenticator_class = 'remote_user.remote_user_auth.RemoteUserAuthenticator'
 c.RemoteUserAuthenticator.header_name = 'X-Forwarded-User'
 c.JupyterHub.base_url = '/jupyterhub/'
+
+# c.JupyterHub.hub_prefix = '/jupyterhub/'
+
 
 # Authenticate users with GitHub OAuth
 # c.JupyterHub.authenticator_class = 'oauthenticator.GitHubOAuthenticator'
