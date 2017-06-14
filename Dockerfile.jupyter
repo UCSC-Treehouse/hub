@@ -31,4 +31,5 @@ RUN pip2 install -r requirements.txt
 RUN pip3 install -r requirements.txt 
 
 # Run as root so we can access everything under /data
+
 USER root

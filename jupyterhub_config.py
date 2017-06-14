@@ -1,7 +1,7 @@
 import os
 
 c = get_config()
-# c.JupyterHub.debug_proxy = True
+c.JupyterHub.debug_proxy = True
 
 # Spawn a docker container per user
 c.JupyterHub.spawner_class = 'dockerspawner.DockerSpawner'
@@ -11,6 +11,7 @@ c.DockerSpawner.remove_containers = True
 
 # Spawn user containers from this image
 c.DockerSpawner.container_image = 'jupyter'
+# c.DockerSpawner.container_image = 'jupyter/datascience-notebook'
 
 c.DockerSpawner.notebook_dir = '/home/jovyan/work'
 c.DockerSpawner.volumes={'/data/notebooks/{username}': '/home/jovyan/work',
@@ -18,6 +19,10 @@ c.DockerSpawner.volumes={'/data/notebooks/{username}': '/home/jovyan/work',
                          '/var/run/docker.sock': '/var/run/docker.sock'}
 # c.DockerSpawner.read_only_volumes = {'/data/notebooks/': '/home/jovyan/work/readonly'}
 c.DockerSpawner.extra_create_kwargs.update({'volume_driver': 'local'})
+
+# This is to ensure that a docker volume can be created when the user name
+# contains special characters
+# c.DockerSpawner.format_volume_name = c.DockerSpawner.volumenamingstrategy.escaped_format_volume_name
 
 # Connect containers to this Docker network
 network_name = os.environ['COMPOSE_PROJECT_NAME'] + '_default'
@@ -34,6 +39,10 @@ c.JupyterHub.port = 8000
 c.DockerSpawner.extra_create_kwargs.update({
     'command': '/usr/local/bin/start-singleuser.sh'
 })
+c.DockerSpawner.environment = {
+    'JPY_USER': 'root',
+    'GRANT_SUDO': '1'
+}
 
 # Persist hub data on volume mounted inside container
 c.JupyterHub.db_url = 'sqlite:////data/jupyterhub/jupyterhub.sqlite'
