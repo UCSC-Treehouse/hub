@@ -1,13 +1,21 @@
-FROM jupyter/datascience-notebook:latest
+FROM jupyter/datascience-notebook:72cca2a7f3ea
 
 USER root
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends zip cmake \
+    && apt-get install -y --no-install-recommends zip \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 USER jovyan
+
+RUN pip2 install --upgrade pip
+RUN pip3 install --upgrade pip
+
+# Install Python 2 & 3 Additional Packages for Notebooks
+ADD requirements.txt requirements.txt
+RUN pip2 install -r requirements.txt 
+RUN pip3 install -r requirements.txt 
 
 # Install R Packages used in Treehouse
 RUN conda config --system --add channels conda-forge
@@ -22,14 +30,5 @@ RUN R -e "install.packages(c('reshape2', 'openxlsx'), repos='http://cran.rstudio
 RUN Rscript -e 'source("http://bioconductor.org/biocLite.R"); biocLite("biomaRt")'
 RUN Rscript -e 'source("http://bioconductor.org/biocLite.R"); biocLite("pathview")'
 
-RUN pip2 install --upgrade pip
-RUN pip3 install --upgrade pip
-
-# Install Python 2 & 3 Additional Packages for Notebooks
-ADD requirements.txt requirements.txt
-RUN pip2 install -r requirements.txt 
-RUN pip3 install -r requirements.txt 
-
 # Run as root so we can access everything under /data
-
 USER root
