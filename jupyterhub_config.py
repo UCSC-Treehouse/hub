@@ -13,8 +13,8 @@ c.DockerSpawner.debug = True
 c.DockerSpawner.remove_containers = True
 
 # Spawn user containers from this image
-# c.DockerSpawner.container_image = 'jupyter'
-c.DockerSpawner.container_image = 'jupyter/datascience-notebook'
+c.DockerSpawner.container_image = 'jupyter'
+# c.DockerSpawner.container_image = 'jupyter/datascience-notebook'
 # c.DockerSpawner.container_image = 'jupyter/scipy-notebook:bb222f49222e'
 # c.DockerSpawner.container_image = 'jupyter/minimal-notebook'
 
